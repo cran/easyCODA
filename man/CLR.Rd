@@ -14,7 +14,7 @@ CLR(data, weight=TRUE)
 A compositional data frame or matrix 
 }
   \item{weight}{
-Logical indicating if varying weights are returned(default:\code{TRUE}). If \code{FALSE} unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
+Logical indicating if varying weights are returned(default:\code{TRUE}). If \code{FALSE}, unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
 }
 }
 \details{
@@ -29,7 +29,7 @@ The function \code{CLR} computes the set of centred logratios (CLRs).
   }
 }
 \references{
-Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. 
+Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. \cr
 Greenacre, M. (2018), Compositional Data Analysis in Practice, Chapman & Hall / CRC Press.
 }
 \author{

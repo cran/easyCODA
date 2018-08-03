@@ -1,0 +1,9 @@
+citHeader("To cite the package 'easyCODA' in publications please use:")
+
+
+citEntry(entry = "Book",
+         title = "Compositional Data Analysis in Practice",
+         year = "2018",
+         author = personList(as.person("M. Greenacre")),
+         publisher = "Chapman & Hall / CRC Press",
+         textVersion = "Greenacre, M. (2018). Compositional Data Analysis in Practice. Chapman & Hall / CRC Press.")

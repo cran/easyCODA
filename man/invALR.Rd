@@ -29,7 +29,7 @@ The function \code{invALR} computes the original parts, given the additive logra
   }
 }
 \references{
-Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. 
+Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. \cr
 Greenacre, M. (2018), Compositional Data Analysis in Practice, Chapman & Hall / CRC Press.
 }
 \author{

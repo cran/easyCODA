@@ -1,4 +1,4 @@
-LRA <- function(data, nd = NA, weight = TRUE, suprow = NA, row.wt = NA, 
+LRA <- function(data, nd = 2, weight = TRUE, suprow = NA, row.wt = NA, 
                 amalg = NA, supamalg = FALSE) {
 # data          compositional data table
 # nd            number of dimensions for summary output, 2 by default
@@ -35,10 +35,10 @@ LRA <- function(data, nd = NA, weight = TRUE, suprow = NA, row.wt = NA,
 # then do actual LRA
   if(sum(data == 0) > 0) {
     stop("There are data zeros in the matrix -- replace with positive values")
-    }
+  }
   if(sum(data < 0) > 0) {
     stop("There are negative values in the matrix -- this is not allowed for logratio analysis")
-    }
+  }
   data <- as.matrix(data)
   P    <- data/sum(data)
   Psup <- P
@@ -107,14 +107,14 @@ LRA <- function(data, nd = NA, weight = TRUE, suprow = NA, row.wt = NA,
     Ysup     <- Ysup - mc %*% t(rep(1, ncol(Ysup)))
     Ysup.csc <- Ysup %*% diag(sqrt(rm)) %*% svdZ$u[,1:ndmax] %*% diag(1/svdZ$d[1:ndmax]) 
 
-# insert supplementary row information in correct places
+# insert supplementary column information in correct places
     foo           <- matrix(0, nrow = ncol(data), ncol = ndmax) 
     foo[-supcol,] <- data.csc
     foo[supcol,]  <- Ysup.csc 
     data.csc      <- foo
     foo           <- rep(0, ncol(data))
     foo[-supcol]  <- cm
-    foo[supcol]   <- apply(P[,supcol], 2, sum) / sum(P)
+    foo[supcol]   <- apply(data[,supcol], 2, sum) / sum(data[,-((ncol(data)-length(amalg)+1): ncol(data))])
     cm            <- foo
   }
 
@@ -131,8 +131,8 @@ LRA <- function(data, nd = NA, weight = TRUE, suprow = NA, row.wt = NA,
   data.lra$colmass     <- cm
   data.lra$rowcoord    <- data.rsc
   data.lra$colcoord    <- data.csc
-  data.lra$rowpcoord    <- data.rpc
-  data.lra$colpcoord    <- data.cpc
+  data.lra$rowpcoord   <- data.rpc
+  data.lra$colpcoord   <- data.cpc
   data.lra$rowdist     <- sqrt(apply(data.rpc^2, 1, sum))
   data.lra$coldist     <- sqrt(apply(data.cpc^2, 1, sum))
   data.lra$rowinertia  <- apply(diag(rm) %*% (data.rpc^2), 1, sum)

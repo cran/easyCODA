@@ -17,22 +17,22 @@ A compositional data frame or matrix
 A permutation of the columns (default: the original ordering) 
 }
   \item{weight}{
-Logical indicating if varying weights are returned(default:\code{TRUE}). If \code{FALSE} unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
+Logical indicating if varying weights are returned (default:\code{TRUE}). If \code{FALSE}, unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
 }
 }
 \details{
-The function \code{LR} computes the comoplete set of pairwise logratios, in order ([1,2], [1,3], [2,3], [1,4], [2,4], [3,4], etc). 
+The function \code{LR} computes the complete set of pairwise logratios, in the order [1,2], [1,3], [2,3], [1,4], [2,4], [3,4], etc. 
 }
 \value{
   \item{LR}{
-  The pairwise logratios 
+  The pairwise logratios as columns of a data matrix
   }
   \item{LR.wt}{
-  The weights assigned to the logratios
+  The weights assigned to the respective logratios
   }
 }
 \references{
-Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. 
+Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. \cr 
 Greenacre, M. (2018), Compositional Data Analysis in Practice, Chapman & Hall / CRC Press.
 }
 \author{

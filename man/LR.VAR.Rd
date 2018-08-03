@@ -11,20 +11,20 @@ LR.VAR(LRdata, row.wt = NA, weight=TRUE, vars=FALSE)
 }
 \arguments{
   \item{LRdata}{
-Matrix of logratios, either a vector or preferably the output from one of the functions ALR, CLR, ILR, SLR, PLR or LR
+Matrix of logratios, either a vector or preferably the logratio object resulting from one of the functions ALR, CLR, PLR or LR
 }
   \item{row.wt}{
 Optional set of row weights (default: equal weights)
 }
   \item{weight}{
-Logical indicating if varying weights are returned(default:\code{TRUE}). If \code{FALSE} unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
+Logical indicating if varying weights are returned(default:\code{TRUE}). If \code{FALSE}, unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
 }
   \item{vars}{
-Output individual variances as well (default: no output of individual variances)
+If \code{TRUE}, output individual variances as well (default \code{FALSE})
 }
 }
 \details{
-The function \code{LR} computes the comoplete set of pairwise logratios, in order ([1,2], [1,3], [2,3], [1,4], [2,4], [3,4], etc). 
+The function \code{LR.VAR} computes the sum of the logratio variances provided as input, using the weights in the logratio data object. 
 }
 \value{
   \item{LRtotvar}{
@@ -35,7 +35,7 @@ The function \code{LR} computes the comoplete set of pairwise logratios, in orde
   }
 }
 \references{
-Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. 
+Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall.  \cr
 Greenacre, M. (2018), Compositional Data Analysis in Practice, Chapman & Hall / CRC Press.
 }
 \author{
@@ -45,7 +45,13 @@ Michael Greenacre
 \code{\link{LR}}, \code{\link{ALR}}, \code{\link{invALR}}, \code{\link{CLR}}, \code{\link{invCLR}}
 }
 \examples{
-data(veg)
-LR(veg)
+data(cups)
+# These give identical total logratio variances (weighted, by default)
+LR.VAR(CLR(cups))
+LR.VAR(LR(cups))
+# Summing over all sets of ALRs gives twice the variance
+totvar <- 0
+for(j in 1:ncol(cups)) totvar <- totvar + LR.VAR(ALR(cups, denom=j))
+totvar/2
 }
 \keyword{logratio}

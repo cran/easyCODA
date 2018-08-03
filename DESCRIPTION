@@ -1,9 +1,9 @@
 Package: easyCODA
 Type: Package
-Depends: R (>= 2.10), ca (>= 0.6)
+Depends: R (>= 2.10), ca (>= 0.6), vegan (>= 2.3)
 Title: Compositional Data Analysis in Practice
-Version: 0.23
-Date: 2018-05-07
+Version: 0.25
+Date: 2018-07-26
 Author: Michael Greenacre
 Maintainer: Michael Greenacre <michael.greenacre@upf.edu>
 Description: Univariate and multivariate methods for compositional data analysis, 
@@ -11,8 +11,8 @@ Description: Univariate and multivariate methods for compositional data analysis
 License: GPL
 Repository: CRAN
 Repository/R-Forge/Project: easycoda
-Repository/R-Forge/Revision: 10
-Repository/R-Forge/DateTimeStamp: 2018-05-07 13:51:46
-Date/Publication: 2018-05-30 08:36:50 UTC
+Repository/R-Forge/Revision: 18
+Repository/R-Forge/DateTimeStamp: 2018-08-03 19:45:59
+Date/Publication: 2018-08-03 21:00:03 UTC
 NeedsCompilation: no
-Packaged: 2018-05-07 14:15:10 UTC; rforge
+Packaged: 2018-08-03 20:15:14 UTC; rforge

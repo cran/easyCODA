@@ -17,14 +17,14 @@ A compositional data frame or matrix
 Number of part used in the denominator
 }
   \item{weight}{
-Logical indicating if varying weights are returned(default:\code{TRUE}). If \code{FALSE} unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
+Logical indicating if varying weights are returned(default:\code{TRUE}). If \code{FALSE}, unweighted (equal) weights are returned. Alternatively a set of positive weights can be specified.
 }
  \item{stats}{
 Logical indicating if means, variances and total variance of the ALRs are returned (default:\code{FALSE})
 }
 }
 \details{
-The function \code{ALR} computes a set of additive logratios (ALRs) with respect to specified part (by default, the last part). 
+The function \code{ALR} computes a set of additive logratios (ALRs) with respect to a specified part (by default, the last part). 
 }
 \value{
   \item{LR}{
@@ -37,7 +37,7 @@ The function \code{ALR} computes a set of additive logratios (ALRs) with respect
   The index of the denominator used in the computation of the ALRs 
   }
   \item{part.names}{
-  The set of part names in data
+  The part names in the data, i.e. column names 
   }
   \item{part.wt}{
   The part weights 
@@ -53,7 +53,7 @@ The function \code{ALR} computes a set of additive logratios (ALRs) with respect
   }  
 }
 \references{
-Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. 
+Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. \cr 
 Greenacre, M. (2018), Compositional Data Analysis in Practice, Chapman & Hall / CRC Press.
 }
 \author{

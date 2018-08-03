@@ -7,13 +7,13 @@ Dot plot
 Simple dot plot of original data
 }
 \usage{
-DOT(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitter=1, 
+DOT(data, cols=NA, names=NA, groups=NA, pch=NA, horizon=FALSE, jitter=1, 
      xscale=NA, xscalefac=1, yaxis=TRUE, shownames=TRUE, main="", ylab="", 
      xlim=c(NA,NA), ylim=c(NA, NA), cex=1)
 }
 \arguments{
   \item{data}{
-Matrix or data frame with data in columns (even if single sample, should be a matrix)
+Matrix or data frame with data groups in columns; alternatively, a single vector but then groups (if any) have to specified with the \code{groups} option 
 }
  \item{cols}{
 Colours of points for each sample, default rainbow
@@ -62,7 +62,7 @@ Character size adjustment for labels
 }
 }
 \details{
-The function \code{DOT} makes a dot plot for specified groups of points, which can be in columns of a matrix or data frame. 
+The function \code{DOT} makes a dot plot for specified groups of points, which can be in columns of a matrix or data frame, or in a single vector with group codes specified separately. 
 }
 \references{
 Greenacre, M. (2016), Data reporting and visualization in ecology, Polar Biology, 39:2189-2205.
@@ -74,7 +74,12 @@ Michael Greenacre
 \code{\link{BAR}}
 }
 \examples{
+# Dot plot of columns of Vegetables data set
 data(veg)
 DOT(veg)
+# Dot plot of domestic work column of TimeBudget data set, split by sex
+data(time)
+DOT(time[,2], groups=substr(rownames(time),3,3), cols=c("blue","red"), ylim=c(0,20), 
+    jitter=2, main="Percentage of Domestic Work")
 }
 \keyword{visualization}

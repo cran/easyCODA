@@ -1,5 +1,7 @@
-DOT <- function(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitter=1, xscale=NA, xscalefac=1, yaxis=TRUE, shownames=TRUE, main="", ylab="", xlim=c(NA,NA), ylim=c(NA, NA), cex=1)
-  {
+DOT <- function(data, cols=NA, names=NA, groups=NA, pch=NA, horizon=FALSE, jitter=1, 
+                xscale=NA, xscalefac=1, yaxis=TRUE, shownames=TRUE, main="", ylab="", 
+                xlim=c(NA,NA), ylim=c(NA, NA), cex=1)
+{
 
 # function to plot dots, assuming diffe	rent samples in columns of data, or defined by 
 # group code.  A common scale is assumed.
@@ -20,26 +22,19 @@ DOT <- function(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitte
 # shownames: =T, =F to not show group names and add them externally
 
 # determine x- and y-ranges
-
   data <- as.matrix(data)
   if(is.na(xlim[1])) {
     xrange <- c(0, ncol(data)+1)
     xscale <- xscalefac*(1:ncol(data))
-    if(is.na(cols[1])) cols <- rainbow(ncol(data))
-    if(is.na(pch[1])) pch <- rep(19,ncol(data))
   }
   if(!is.na(groups[1])) {
     ngroups <- length(unique(groups))
     xrange <- c(0, ngroups+1)
     xscale <- xscalefac*(1:ngroups)
-    if(is.na(cols[1])) cols <- rainbow(ncol(data))
-    if(is.na(pch[1])) pch <- rep(19,ncol(data))
   }
   if(!is.na(xlim[1]) & !is.na(xlim[2]) & !is.na(xscale[1])) {
     xrange <- xlim
     xscale <- xscale
-    if(is.na(cols[1])) cols <- rainbow(ncol(data))
-    if(is.na(pch[1])) pch <- rep(19,ncol(data))
   }
   if(is.na(ylim[1])) {
     yrange <- max(data, na.rm=T)-min(data, na.rm=T)
@@ -51,8 +46,6 @@ DOT <- function(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitte
   if(is.na(groups[1])) {
     DATA <- data
     if(is.na(names[1])) names <- colnames(data)
-    if(is.na(cols[1])) cols <- rainbow(ncol(data))
-    if(is.na(pch[1])) pch <- rep(19,ncol(data))
   }
   if(!is.na(groups[1])) {
     DATA <- matrix(NA, nrow=max(table(groups)), ncol=ngroups)
@@ -66,7 +59,8 @@ DOT <- function(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitte
     if(length(pch)==1) pch <- rep(19,ncol(DATA))
   }
 # plot
-
+  if(is.na(cols[1])) cols <- rainbow(ncol(DATA))
+  if(is.na(pch[1])) pch <- rep(19,ncol(DATA))
   par(mar=c(4,4.2,3,0), font.lab=2, las=1, cex.lab=1.2)
   plot(0, 0, type="n", xlim=xrange, ylim=ylim, xaxt="n", yaxt="n", bty="n", 
        xlab="", main=main, ylab=ylab)
@@ -88,6 +82,5 @@ DOT <- function(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitte
       } 
     }
   }
-# list(DATA=DATA, xscale=xscale, xrange=xrange, names=names, cols=cols, foo=foo, pch=pch)
 }
 

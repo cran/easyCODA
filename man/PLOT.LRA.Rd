@@ -18,7 +18,7 @@ An LRA object created using function \code{LRA}
 Choice of scaling of rows and columns: \code{"symmetric"} (default), \code{"asymmetric"} or \code{"contribution"}
 }
   \item{rescale}{
-A rescaling factor applied to column coordinates(default is 1 for no rescaling)
+A rescaling factor applied to column coordinates (default is 1 for no rescaling)
 }
  \item{dim}{
 Dimensions selected for horizontal and vertical axes of the plot (default is c(1,2)) 
@@ -44,7 +44,9 @@ The function \code{PLOT.LRA} makes a scatterplot of the results of a logratio an
 
 By default, the symmetric scaling is used, where both rows and columns are in principal coordinates and have the same amount of weighted variance along the two dimensions. The other options are the asymmetric option, when columns are in standard coordinates, and the contribution option, when columns are in contribution coordinates.  In cases where the row and column displays occupy widely different extents, the column coordinates can be rescaled using the \code{rescale} option. 
 }
-
+\references{
+Greenacre, M. (2013), Contribution biplots, Journal of Computational and Graphical Statistics, 22, 107-122.
+}
 \author{
 Michael Greenacre
 }
