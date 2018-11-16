@@ -1,5 +1,7 @@
 LRA <- function(data, nd = 2, weight = TRUE, suprow = NA, row.wt = NA, 
                 amalg = NA, supamalg = FALSE) {
+# updated 1/9/2018 to fix bug in definition of cm
+
 # data          compositional data table
 # nd            number of dimensions for summary output, 2 by default
 # weight        = TRUE (default) when weights are column means
@@ -53,7 +55,7 @@ LRA <- function(data, nd = 2, weight = TRUE, suprow = NA, row.wt = NA,
   }
   rm   <- apply(Psup,1,sum)
   cm   <- apply(Psup,2,sum)
-  if(!weight[1]) cm <- rep(1/ncol(data), ncol(data))
+  if(!weight[1]) cm <- rep(1/ncol(Psup), ncol(Psup))
   if(length(weight) > 1) {
     if(length(weight) != ncol(data)) stop("Number of specified column weights not equal to number of columns of data")
     if(sum(weight <= 0) > 1) stop("Column weights have to be all positive")

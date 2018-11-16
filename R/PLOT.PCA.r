@@ -1,6 +1,9 @@
 PLOT.PCA <- function(obj, map="symmetric", rescale=1, dim=c(1,2), main="", 
                      cex=c(0.8,0.8), col=c("blue","red"), colarrows="pink",
                      axes.inv=c(1,1)) {
+
+# updated to fix up colour definitions and character sizes for rows and columns
+
 # plotting function for PCA objects
 # map = "symmetric" / "asymmetric" / "contribution"
 # rescale = rescaling of column coordinates
@@ -37,7 +40,7 @@ PLOT.PCA <- function(obj, map="symmetric", rescale=1, dim=c(1,2), main="",
   }
   abline(h=0, v=0, col="gray", lty=2)
   if(map != "symmetric") arrows(0, 0, 0.95*rescale*obj.crd[,1], 0.95*rescale*obj.crd[,2], length=0.1, angle=10, col="pink", lwd=2)
-  text(obj.rpc, labels=obj$rownames, col=col[1], font=2, cex=0.8)
-  text(rescale*obj.crd, labels=obj$colnames, col=col[2], cex=0.8, font=4)
+  text(obj.rpc, labels=obj$rownames, col=col[1], font=2, cex=cex[1])
+  text(rescale*obj.crd, labels=obj$colnames, col=col[2], cex=cex[2], font=4)
 }
 
