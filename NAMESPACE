@@ -1,6 +1,7 @@
-import(ca, vegan)
-importFrom("grDevices", "rainbow")
+import(ca, vegan, ellipse)
+importFrom("grDevices", "rainbow", "adjustcolor")
 importFrom("graphics", "abline", "arrows", "axTicks", "axis", "par",
-           "plot", "points", "segments", "text")
-importFrom("stats", "var", "lm")
+           "plot", "points", "segments", "text", "lines", "polygon",
+           "rect")
+importFrom("stats", "var", "lm", "qf", "qt", "quantile", "sd")
 exportPattern("^[[:alpha:]]+")

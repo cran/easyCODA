@@ -5,6 +5,8 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
 # updated 8/11/2018 to set rownames of ratios.top to be rationames.top
 # updated 14/11/2018 to set names of ratios to be names (not rationames) and 
 #   names of top ratios to be names.top (not rationames.top))
+# updated 16/12/2018 to sort out weights for possible additional variables in data
+# updated 27/12/2018 replacing data with datatarget in computing target weights
 
 # stepwise variable selection process to find logratios that
 # explain maximum variance
@@ -12,7 +14,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
 # data        = the matrix on which logratios are constructed
 # datatarget  = the matrix whose variance is to be explained (=data by default)
 # previous    = logratios or other variables forced in before searching for other logratios
-# previous.wt = weights of logratios forced in before searching for others
+# previous.wt = weights of previous logratios forced in
 # weight      = use weighted variance (=TRUE by default)
 # random      = TRUE for random breaking of ties (FALSE by default, using Procrustes)
 # nsteps      = number of steps (if not specified, one less than number of columns of datatarget)
@@ -27,7 +29,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
     weights <- weight / sum(weight)
   }
 
-  if(!is.na(previous[1]) & is.na(previous.wt[1])) previous.wt <- rep(1, ncol(as.matrix(previous)))
+#################  if(!is.na(previous[1]) & is.na(previous.wt[1])) previous.wt <- rep(1, ncol(as.matrix(previous)))
 
 # test whether data and datatarget are the same matrices
   datasame <- FALSE
@@ -52,7 +54,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       ldata <- sqrt(1/nrow(data)) * ldata * sqrt(1/ncol(data))
       ldata.svd <- svd(ldata)
       nontriv <- which(ldata.svd$d > 1.e-12)
-      data.rpc <- ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv]) * (1/sqrt(r))
+      data.rpc <- diag(1/sqrt(r)) %*% ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv])
     } else {
 # weighted logratio variance
       r <- apply(datatarget, 1, sum) / sum(datatarget)
@@ -64,21 +66,24 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       ldata <- diag(sqrt(r)) %*% data.c2 %*% diag(sqrt(c))     
       ldata.svd <- svd(ldata)
       nontriv <- which(ldata.svd$d > 1.e-12)
-      data.rpc <- ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv]) * (1/sqrt(r))
+      data.rpc <- diag(1/sqrt(r)) %*% ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv])
     }
   }
-  if(length(weight)==ncol(data)) {
+  if(length(weight)>1) {
 # logratio variance with given weights
     ldata <- log(datatarget)
     r <- apply(datatarget, 1, sum) / sum(datatarget)
-    c <- weights
+    if(length(weight) < ncol(datatarget))
+        stop("Not enough pre-specified weights")
+    if(length(weight) == ncol(datatarget)) c <- weights
+    if(length(weight) > ncol(datatarget))  c <- weights[1:ncol(datatarget)]
     data.mr  <- apply(as.matrix(ldata) %*% diag(c), 1, sum)
     data.c1 <- sweep(ldata, 1, data.mr) 
     data.c2 <- sweep(data.c1, 2, apply(data.c1, 2, mean)) 
     ldata <- diag(sqrt(r)) %*% data.c2 %*% diag(sqrt(c))     
     ldata.svd <- svd(ldata)
     nontriv <- which(ldata.svd$d > 1.e-12)
-    data.rpc <- ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv]) * (1/sqrt(r))
+    data.rpc <- diag(1/sqrt(r)) %*% ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv])
   }
 
 # column variances
@@ -141,6 +146,8 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
                 totvar=ldata.totvar))
   }
   
+
+# --------------------- start of loop ------------------------------
 # loop over ratios as many times as there are columns in data minus 1
   for(jratio in 2:nsteps) {
     R2 <- matrix(0, ncol(data), ncol(data))
@@ -173,9 +180,15 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       procr <- rep(0, nrow(foo))
       for(ip in 1:nrow(foo)) {
         foorats     <- cbind(logratios, log(data[,foo[ip,1]]/data[,foo[ip,2]]))
-        foorats.c   <- c(c[ratios[,1]] * c[ratios[,2]], c[foo[ip,1]]*c[foo[ip,2]])
-        foorats.w <- diag(sqrt(r)) %*% foorats %*% diag(sqrt(foorats.c))
-        procr[ip]   <- protest(data.rpc, foorats.w, permutations=0)$t0       
+# patch for additional data
+        alldat.c    <- apply(data, 2, mean)
+        if(length(weight)==1 & !weight) alldat.c <- rep(1/ncol(data), ncol(data))
+        if(length(weight)==ncol(datatarget) & !datasamedim) 
+           stop("Weights of additional columns in data have not been given, necessary for Procrustes") 
+        foorats.c   <- c(alldat.c[ratios[,1]] * alldat.c[ratios[,2]], alldat.c[foo[ip,1]]*alldat.c[foo[ip,2]])
+#        foorats.w <- diag(sqrt(r)) %*% foorats %*% diag(sqrt(foorats.c))
+        foorats.rpc <- PCA(foorats, row.wt=r, weight=foorats.c)$rowpcoord
+        procr[ip]   <- protest(data.rpc, foorats.rpc, permutations=0)$t0       
       }
       ratios <- rbind(ratios, foo[which(procr==max(procr)),])
     }
@@ -185,6 +198,9 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       ratios <- rbind(ratios, foo[1,])
     }
   }
+
+# ------------- end of loop ------------
+
   if(nratios==nsteps & datasame) R2max[nratios] <- 1
   logratios <- cbind(logratios, log(data[,ratios[nsteps,1]]/data[,ratios[nsteps,2]]))
   for(jratio in 1:nsteps) rationames[jratio] <- paste(colnames(data)[ratios[jratio,1]], colnames(data)[ratios[jratio,2]], sep="/" )
@@ -192,18 +208,25 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
   rownames(logratios) <- rownames(data)
 
 # Procrustes correlations
-  foorats.c <- apply(data, 2, mean)
+  alldat.c    <- apply(data, 2, mean)
+  if(length(weight)==1 & !weight) alldat.c <- rep(1/ncol(data), ncol(data))
+  if(length(weight)==ncol(datatarget) & !datasamedim) 
+       stop("Weights of additional columns in data have not been given, necessary for Procrustes")
+  if(length(weight)==ncol(data)) alldat.c <- weights 
+
   procrust  <- rep(0, ncol(logratios))
   foorats.w <- logratios[,1]
   if(!is.na(previous[1])) foorats.w <- cbind(previous,logratios[,1]) 
   procrust[1] <- protest(data.rpc, foorats.w, permutations=0)$t0
 
   for(j in 2:ncol(logratios)) {
-    foorats    <- logratios[,1:j]
-    foorats.wt <- foorats.c[ratios[1:j,1]]*foorats.c[ratios[1:j,2]]
-    foorats.w  <- diag(sqrt(r)) %*% foorats %*% diag(sqrt(foorats.wt))
-    if(!is.na(previous[1])) foorats.w <- diag(sqrt(r)) %*% cbind(previous, foorats) %*% diag(sqrt(c(previous.wt,foorats.wt)))
-    procrust[j] <- protest(data.rpc, foorats.w, permutations=0)$t0
+    foorats     <- logratios[,1:j]
+    foorats.c   <- alldat.c[ratios[1:j,1]]*alldat.c[ratios[1:j,2]]
+    foorats.rpc <- PCA(foorats, row.wt=r, weight=foorats.c)$rowpcoord
+    if(!is.na(previous[1]) & is.na(previous.wt))
+        stop("No weights for previous logratios are given in previous.wt option, necessary for Procrustes")
+    if(!is.na(previous[1])) foorats.rpc <- PCA(cbind(previous,foorats), row.wt=r, weight=c(previous.wt, foorats.c))$rowpcoord
+    procrust[j] <- protest(data.rpc, foorats.rpc, permutations=0)$t0
   }
   rownames(ratios) <- rationames
 # If nsteps < nratios and top > 1 evaluate top's ratios etc...'  

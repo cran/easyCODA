@@ -3,6 +3,8 @@ ILR <- function(data, numer=NA, denom=NA, weight=TRUE) {
 # numer = set of parts in numerator, denom = set of parts in denominator
 # weight = FALSE (unweighted), = TRUE (weighted by column means)
 #        = (vector of prespecified weights)
+# updated 24/12/2018 with correction to scalar coefficient
+
   if(sum(data==0) > 0) stop("Error: some data values are zero")
   data <- as.matrix(data / apply(data, 1, sum))
   if(!weight[1]) weights <- rep(1/ncol(data), ncol(data))
@@ -22,7 +24,7 @@ ILR <- function(data, numer=NA, denom=NA, weight=TRUE) {
   den <- den / sum(weights[denom])
   num.wt <- sum(weights[numer])
   den.wt <- sum(weights[denom])
-  ilr <- sqrt(num.wt * den.wt / (num.wt + den.wt)) * (num - den)
+  ilr <- sqrt(num.wt * den.wt/(num.wt + den.wt) * length(c(numer,denom))) * (num - den)
   ilr.weight <- num.wt * den.wt
   names(ilr.weight) <- paste(paste(colnames(data)[numer], collapse="&"), paste(colnames(data)[denom], collapse="&"), sep="/")
   return(list(LR=ilr, LR.wt=ilr.weight))

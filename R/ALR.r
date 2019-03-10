@@ -16,6 +16,8 @@ ALR <- function(data, denom=ncol(data), weight=TRUE, stats=FALSE) {
     weights <- weight / sum(weight)
   }
   alr <- log(data[,-denom]/data[,denom])
+  if(length(rownames(data))==0) rownames(alr) <- 1:nrow(data)
+  if(length(rownames(data))> 0) rownames(alr) <- rownames(data)  
   colnames(alr) <- paste(colnames(data)[-denom], colnames(data)[denom], sep="/")
   alr.weights <- weights[-denom] * weights[denom]
   names(alr.weights) <- colnames(alr)

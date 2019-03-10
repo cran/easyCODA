@@ -9,7 +9,7 @@ Various maps and biplots/triplots of the results of a redundancy analysis using 
 \usage{
 PLOT.RDA(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), main="", 
          axes.inv=c(1,1), rowstyle=1, cols=c("blue","red","forestgreen"), 
-         colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcat=NA,
+         colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcats=NA,
          cexs=c(0.8,0.8,0.8), fonts=c(2,4,4))
 }
 \arguments{
@@ -49,7 +49,7 @@ Optional vector of colours for rows
  \item{pchrows}{
 Optional vector of point symbols for rows
 }
- \item{colcat}{
+ \item{colcats}{
 Optional vector of colours for covariate categories (dummy variables)
 }
  \item{cexs}{

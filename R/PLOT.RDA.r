@@ -1,6 +1,6 @@
 PLOT.RDA <- function(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), main="", 
                      axes.inv=c(1,1), rowstyle=1, cols=c("blue","red","forestgreen"), 
-                     colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcat=NA,
+                     colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcats=NA,
                      cexs=c(0.8,0.8,0.8), fonts=c(2,4,4)) {
 # plotting function for RDA objects
 # obj        RDA object 
@@ -14,9 +14,11 @@ PLOT.RDA <- function(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), mai
 # colarrows  colour for arrows in asymmetric and contribution biplots
 # colrows    (optional) vector of colours for rows
 # pchrows    (optional) vector of symbols for rows
-# colcat     (optional) vector of colours for category means
+# colcats     (optional) vector of colours for category means
 # cexs       expansion/contraction factors for row, column and covariate labels (default: c(0.8,0.8,0.8))
 # fonts      fonts for row, column and covariate labels (default: c(2,4,4))
+
+# updated 1/1/2019 to replace colcat with colcats (as in book)
 
   if(length(rescale)==1) rescale <- c(rescale, rescale)
   vars <- obj$cov
@@ -81,7 +83,7 @@ PLOT.RDA <- function(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), mai
   if(length(colrows)>1 & length(pchrows)>1) points(obj.rpc, pch=pchrows, col=colrows, cex=cexs[1])
   text(rescale[1]*obj.crd, labels=obj$colnames, col=cols[2], cex=cexs[2], font=fonts[2])
   text(rescale[2]*covscale*obj.cvcrd[var.ind,1],rescale[2]*covscale*obj.cvcrd[var.ind,2], labels=obj$covnames[var.ind], col=cols[3], cex=cexs[3], font=fonts[3])
-  if(!is.na(indcat[1]) & is.na(colcat[1])) text(cov.catcoord[,1], cov.catcoord[,2], labels=obj$covnames[indcat], col=cols[3], cex=cexs[3], font=fonts[3])
-  if(!is.na(indcat[1]) & !is.na(colcat[1])) text(cov.catcoord[,1], cov.catcoord[,2], labels=obj$covnames[indcat], col=colcat, cex=cexs[3], font=fonts[3])
+  if(!is.na(indcat[1]) & is.na(colcats[1])) text(cov.catcoord[,1], cov.catcoord[,2], labels=obj$covnames[indcat], col=cols[3], cex=cexs[3], font=fonts[3])
+  if(!is.na(indcat[1]) & !is.na(colcats[1])) text(cov.catcoord[,1], cov.catcoord[,2], labels=obj$covnames[indcat], col=colcats, cex=cexs[3], font=fonts[3])
 }
 
