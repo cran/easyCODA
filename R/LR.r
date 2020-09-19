@@ -19,8 +19,8 @@ LR <- function(data, ordering=1:ncol(data), weight=TRUE) {
   colnames(lr) <- 1:(ncol(data) * (ncol(data)-1) / 2)
   lr.weights <- rep(0, ncol(data) * (ncol(data)-1) / 2)
   k <- 1
-  for(jj in 2:ncol(data)) {
-    for(j in 1:(jj-1)) {
+  for(j in 1:(ncol(data)-1)) {
+    for(jj in (j+1):ncol(data)) {
       lr[,k] <- log(data[,j]/data[,jj])
       colnames(lr)[k] <- paste(colnames(data)[j], colnames(data)[jj], sep="/")
       lr.weights[k] <- weights[j] * weights[jj]   

@@ -7,8 +7,8 @@ Plot the results of a redundancy analysis
 Various maps and biplots/triplots of the results of a redundancy analysis using function \code{RDA}.
 }
 \usage{
-PLOT.RDA(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), main="", 
-         axes.inv=c(1,1), rowstyle=1, cols=c("blue","red","forestgreen"), 
+PLOT.RDA(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), axes.inv=c(1,1),
+         main="", rowstyle=1, cols=c("blue","red","forestgreen"),
          colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcats=NA,
          cexs=c(0.8,0.8,0.8), fonts=c(2,4,4))
 }
@@ -28,11 +28,11 @@ A rescaling factor applied to column coordinates(default is 1 for no rescaling).
  \item{dim}{
 Dimensions selected for horizontal and vertical axes of the plot (default is c(1,2)) 
 }
- \item{main}{
-Title for plot
-}
  \item{axes.inv}{
 Option for reversing directions of horizontal and vertical axes (default is c(1,1) for no reversing, change one or both to -1 for reversing)
+}
+ \item{main}{
+Title for plot
 }
  \item{rowstyle}{
 Scaling option for row coordinates, either 1 (SVD coordinates, default) or 2 (as supplementary points)

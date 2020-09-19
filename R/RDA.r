@@ -1,4 +1,4 @@
-RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA, 
+RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA,
                 row.wt = NA) {
 # data          interval-scaled data table (e.g. logratios)
 # cov           list of covariates for constraining solution
@@ -62,20 +62,20 @@ RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA,
 # prepare predictor matrix, which can be a mixture of continuous, crisp and fuzzy categorical variables
 # index values of the continuous and categorical (dummy & fuzzy variables)  
 
-  Z    <- cov
+  Z    <- as.matrix(cov)
   Dr   <- diag(rm)
-  one  <- rep(1,nrow(Z))
+  one  <- as.matrix(rep(1,nrow(Z)))
   Z    <- Z-one%*%t(rm)%*%Z
-  wvar <- diag(t(Z)%*%Dr%*%Z)
+  wvar <- diag(as.matrix(t(Z)%*%Dr%*%Z))
   Z    <- Z%*%sqrt(diag(1/wvar))
 
 # weighted correlation matrix
-  R    <- t(Z)%*%Dr%*%Z
+  R    <- as.matrix(t(Z)%*%Dr%*%Z)
 
 # inverse of weighted correlation matrix
   R.svd <- svd(R)
   k     <- length(which(R.svd$d > 1.e-10))
-  invR  <- R.svd$u[,1:k] %*% diag(1/R.svd$d[1:k]) %*% t(R.svd$v[,1:k])
+  invR  <- as.matrix(R.svd$u[,1:k]) %*% diag(1/R.svd$d[1:k], nrow=k, ncol=k) %*% t(as.matrix(R.svd$v[,1:k]))
 
 # projection matrix and projected responses
   Proj <- sqrt(Dr) %*% Z %*% invR %*% t(Z) %*% sqrt(Dr)
@@ -84,10 +84,10 @@ RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA,
 
 # standard and principal coordinates
   ndmax    <- sum(svdA$d > 1.e-10)
-  data.rsc <- (diag(1/sqrt(rm)) %*% svdA$u)[,1:ndmax]
-  data.csc <- (diag(1/sqrt(cm)) %*% svdA$v)[,1:ndmax]
-  data.rpc <- data.rsc %*% diag(svdA$d[1:ndmax])
-  data.cpc <- data.csc %*% diag(svdA$d[1:ndmax])
+  data.rsc <- (diag(1/sqrt(rm)) %*% as.matrix(svdA$u)[,1:ndmax])
+  data.csc <- (diag(1/sqrt(cm)) %*% as.matrix(svdA$v)[,1:ndmax])
+  data.rpc <- data.rsc %*% diag(svdA$d[1:ndmax], nrow=ndmax, ncol=ndmax)
+  data.cpc <- data.csc %*% diag(svdA$d[1:ndmax], nrow=ndmax, ncol=ndmax)
 
 # supplementary rows but no supplementary columns
   if(!is.na(suprow[1]) & is.na(supcol[1])) { 
@@ -97,7 +97,7 @@ RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA,
     Ysup     <- Ysup - rep(1, nrow(Ysup)) %*% t(mc)
     mr       <- Ysup %*% as.vector(cm)
     Ysup     <- Ysup - mr %*% t(rep(1, ncol(Ysup)))
-    Ysup.rsc <- Ysup %*% diag(sqrt(cm)) %*% svdA$v[,1:ndmax] %*% diag(1/svdA$d[1:ndmax]) 
+    Ysup.rsc <- Ysup %*% diag(sqrt(cm)) %*% svdA$v[,1:ndmax] %*% diag(1/svdA$d[1:ndmax], nrow=ndmax, ncol=ndmax)
 
 # insert supplementary row information in correct places
     foo           <- matrix(0, nrow = nrow(data), ncol = ndmax) 
@@ -118,7 +118,7 @@ RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA,
     Ysup     <- Ysup - rep(1, nrow(Ysup)) %*% t(mr)
     mc       <- Ysup %*% as.vector(rm)
     Ysup     <- Ysup - mc %*% t(rep(1, ncol(Ysup)))
-    Ysup.csc <- Ysup %*% diag(sqrt(rm)) %*% svdA$u[,1:ndmax] %*% diag(1/svdA$d[1:ndmax]) 
+    Ysup.csc <- Ysup %*% diag(sqrt(rm)) %*% svdA$u[,1:ndmax] %*% diag(1/svdA$d[1:ndmax], nrow=ndmax, ncol=ndmax)
 
 # insert supplementary row information in correct places
     foo           <- matrix(0, nrow = ncol(data), ncol = ndmax) 
@@ -138,7 +138,7 @@ RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA,
 
 # substitute results in ca object - first make dummy run
   data.rda             <- ca(abs(Xsup))  
-  data.rda$nd          <- nd
+  data.rda$nd          <- ndmax
   data.rda$rowsup      <- suprow
   data.rda$colsup      <- supcol
   data.rda$sv          <- svdA$d[1:ndmax]
@@ -152,8 +152,8 @@ RDA <- function(data, cov=NA, nd = NA, weight = TRUE, suprow = NA,
   data.rda$covnames    <- colnames(cov)
   data.rda$rowdist     <- sqrt(apply(data.rpc^2, 1, sum))
   data.rda$coldist     <- sqrt(apply(data.cpc^2, 1, sum))
-  data.rda$rowinertia  <- apply(diag(rm) %*% (data.rpc^2), 1, sum)
-  data.rda$colinertia  <- apply(diag(cm) %*% (data.cpc^2), 1, sum)
+  data.rda$rowinertia  <- apply(diag(rm) %*% as.matrix(data.rpc^2), 1, sum)
+  data.rda$colinertia  <- apply(diag(cm) %*% as.matrix(data.cpc^2), 1, sum)
   data.rda$N           <- data.LR
   data.rda$cov         <- cov
   return(data.rda)

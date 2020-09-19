@@ -50,7 +50,7 @@ It additionally exports the principal coordinates of both the rows and columns, 
   \item{N         }{The compositional data table}
 }
 \references{
-Nenadic, O. and Greenacre, M. (2007). Correspondence analysis in R, with two- and three-dimensional graphics: The ca package. \emph{Journal of Statistical Software}, \bold{20 (3)}, \url{http://www.jstatsoft.org/v20/i03/}
+Nenadic, O. and Greenacre, M. (2007). Correspondence analysis in R, with two- and three-dimensional graphics: The ca package. \emph{Journal of Statistical Software}, \bold{20 (3)}, \url{https://www.jstatsoft.org/v20/i03/}
 }
 \author{
 Michael Greenacre

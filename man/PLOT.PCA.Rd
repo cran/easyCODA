@@ -7,8 +7,9 @@ Plot the results of a principal component analysis
 Various maps and biplots of the results of a principal component analysis using function \code{PCA}.
 }
 \usage{
-PLOT.PCA(obj, map="symmetric", rescale=1, dim=c(1,2), main="", cex=c(0.8,0.8),
-         col=c("blue","red"), colarrows = "pink", axes.inv = c(1,1))
+PLOT.PCA(obj, map="symmetric", rescale=1, dim=c(1,2), axes.inv = c(1,1),
+         main="", cols=c("blue","red"), colarrows = "pink", cexs=c(0.8,0.8),
+         fonts=c(2,4))
 }
 \arguments{
   \item{obj}{
@@ -23,20 +24,23 @@ A rescaling factor applied to column coordinates (default is 1 for no rescaling)
  \item{dim}{
 Dimensions selected for horizontal and vertical axes of the plot (default is c(1,2)) 
 }
+ \item{axes.inv}{
+Option for reversing directions of horizontal and vertical axes (default is c(1,1) for no reversing, change one or both to -1 for reversing)
+}
  \item{main}{
 Title for plot
 }
- \item{cex}{
-Character expansion factors for row and column labels (default is c(0.8,0.8))
-}
- \item{col}{
+ \item{cols}{
 Colours for row and column labels (default is c("blue","red"))
 }
  \item{colarrows}{
 Colour for arrows in asymmetric and contribution biplots (default is "pink")
 }
- \item{axes.inv}{
-Option for reversing directions of horizontal and vertical axes (default is c(1,1) for no reversing, change one or both to -1 for reversing)
+ \item{cexs}{
+Character expansion factors for row and column labels (default is c(0.8,0.8))
+}
+ \item{fonts}{
+Fonts for row and column labels (default is c(2,4))
 }
 }
 \details{

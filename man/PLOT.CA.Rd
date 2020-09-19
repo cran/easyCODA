@@ -7,7 +7,7 @@ Plot the results of a correspondence analysis
 Various maps and biplots of the results of a correspondence analysis using function \code{CA}.
 }
 \usage{
-PLOT.CA(obj, map="symmetric", rescale=1, dim=c(1,2), main="", axes.inv = c(1,1),
+PLOT.CA(obj, map="symmetric", rescale=1, dim=c(1,2), axes.inv = c(1,1), main="",
         cols=c("blue","red"), colarrows = "pink", cexs=c(0.8,0.8), fonts=c(2,4))
 }
 \arguments{

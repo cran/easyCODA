@@ -1,24 +1,33 @@
-PLOT.RDA <- function(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), main="", 
-                     axes.inv=c(1,1), rowstyle=1, cols=c("blue","red","forestgreen"), 
-                     colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcats=NA,
-                     cexs=c(0.8,0.8,0.8), fonts=c(2,4,4)) {
+PLOT.RDA <- function(obj,
+                     map="symmetric",
+                     indcat=NA,
+                     rescale=1,
+                     dim=c(1,2),
+                     axes.inv=c(1,1), main="", rowstyle=1,
+                     cols=c("blue","red","forestgreen"),
+                     colarrows=c("pink","lightgreen"),
+                     colrows=NA,
+                     pchrows=NA,
+                     colcats=NA,
+                     cexs=c(0.8,0.8,0.8),
+                     fonts=c(2,4,4)) {
 # plotting function for RDA objects
 # obj        RDA object 
-# indcat     positions of dummy or fuzzy variables in covariates
 # map        "symmetric" / "asymmetric" / "contribution"
+# indcat     positions of dummy or fuzzy variables in covariates
 # rescale    rescaling of column coordinates and covariate regression coefficients
+# dim        choice of dimensions (default c(1,2))
 # axes.inv   inversion of axes (default: none); e.g. = c(1,-1) for inverting second axis, 
 #            or c(-1,-1) for both
+# main       main title
 # rowstyle   = 1 (default), = 2 (samples as supplementary points)
 # cols       colours for row, column and covariate labels (default: c("blue","red","forestgreen"))
-# colarrows  colour for arrows in asymmetric and contribution biplots
+# colarrows  colour for arrows in asymmetric and contribution biplots  (default: c("pink","lightgreen"))
 # colrows    (optional) vector of colours for rows
 # pchrows    (optional) vector of symbols for rows
-# colcats     (optional) vector of colours for category means
+# colcats    (optional) vector of colours for category means
 # cexs       expansion/contraction factors for row, column and covariate labels (default: c(0.8,0.8,0.8))
 # fonts      fonts for row, column and covariate labels (default: c(2,4,4))
-
-# updated 1/1/2019 to replace colcat with colcats (as in book)
 
   if(length(rescale)==1) rescale <- c(rescale, rescale)
   vars <- obj$cov

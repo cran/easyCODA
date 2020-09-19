@@ -7,7 +7,7 @@ Principal component analysis
 Computation of weighted or unweighted principal component analysis of a matrix of interval-scale data (e.g. a matrix of logratios).
 }
 \usage{
-PCA(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA, supcol = NA)
+PCA(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA)
 }
 \arguments{
   \item{data}{
@@ -24,9 +24,6 @@ Optional user-defined set of positive weights for the rows (samples) (default: e
 }
  \item{suprow}{
 Indices of rows that are supplementary points (NOTE: this option is not implemented in this version)
-}
- \item{supcol}{
-Indices of columns that are supplementary points (NOTE: this option is not implemented in this version)
 }
 }
 \details{
