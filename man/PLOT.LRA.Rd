@@ -57,9 +57,13 @@ Michael Greenacre
 \code{\link[ca]{plot.ca}}
 }
 \examples{
-# perform LRA on the Roman cups data set and plot the results
-data(cups)
-cups.LRA <- LRA(cups)
-PLOT.LRA(cups.LRA, map="contribution", rescale=0.2)	
+# perform LRA on the vegetable compositions (unweighted form)
+data("veg")
+veg.lra <- LRA(veg, weight=FALSE)
+PLOT.LRA(veg.lra)
+# perform LRA on the Roman cups data set and plot the results (weighted form)
+data("cups")
+cups.lra <- LRA(cups)
+PLOT.LRA(cups.lra, map="contribution", rescale=0.2)	
 }
 \keyword{multivariate}

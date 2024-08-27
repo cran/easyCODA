@@ -12,7 +12,7 @@ CIplot_biv(x, y, group, wt=rep(1/length(x),length(x)),
            groupcols=rainbow(length(unique(group))), 
            shownames=TRUE, xlim=c(NA,NA), ylim=c(NA,NA), 
            lty=1, lwd=1, add=FALSE, alpha=0.95, ellipse=0, 
-           shade=FALSE, frac=0.01, cex=1) 
+           shade=FALSE, alpha.f=0.2, frac=0.01, cex=1) 
 }
 \arguments{
   \item{x}{
@@ -62,6 +62,9 @@ Type of ellipse (see Details below; default is 0 for normal-based ellipses)
 }
   \item{shade}{
 =\code{TRUE} for ellipse shading (default=\code{FALSE})
+}
+  \item{alpha.f}{
+Shading fraction (default is 0.2)
 }
   \item{frac}{
 Proportional part defining the width of the bars at the edges of confidence intervals (for \code{ellipse=3} and \code{4})

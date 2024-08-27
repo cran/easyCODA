@@ -57,11 +57,11 @@ Michael Greenacre
 \code{\link{CA}}, \code{\link[ca]{plot.ca}}
 }
 \examples{
-data(cups)
-cups.CA <- CA(cups)
-PLOT.CA(cups.CA, map="contribution", rescale=0.2)	
-# Compare the above plot with that of an LRA -- practically the same
-cups.LRA <- LRA(cups)
-PLOT.LRA(cups.LRA, map="contribution", rescale=0.2)
+data("cups")
+cups.ca <- CA(cups)
+PLOT.CA(cups.ca, map="contribution", rescale=0.2)	
+# Compare the above plot with that of a weighted LRA -- practically the same
+cups.lra <- LRA(cups)
+PLOT.LRA(cups.lra, map="contribution", rescale=0.2)
 }
 \keyword{multivariate}

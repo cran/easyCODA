@@ -59,13 +59,8 @@ Michael Greenacre
 \code{\link{PLOT.CA}}, \code{\link[ca]{plot.ca}}, \code{\link[ca]{summary.ca}}, \code{\link[ca]{print.ca}}
 }
 \examples{
-# (weighted) LRA of the RomanCups data set, showing default symmetric map
-data(cups)
+# CA of the Roman cups data (symmetric map)
+data("cups")
 PLOT.CA(CA(cups))
-
-data(author)
-ca(author)
-plot(CA(author))      # ca plot function
-PLOT.CA(CA(author))   # easyCODA plot function
 }
 \keyword{multivariate}

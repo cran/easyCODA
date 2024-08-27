@@ -9,6 +9,7 @@ PCA <- function(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA) {
 
   # 15/5/2019  fixed bug in supplementary row option, disabled supcol since it makes little sense for CoDa
   # 07/02/2020 fixed bug in row.wt definition
+  # 1/1/2021 another fix when row.wt supplied (exlcuding the 0s corresponing to the supplementary rows)
 
   # first check if data is a dataframe, if so make it a matrix
   if(is.data.frame(data)) data <- as.matrix(data)
@@ -21,7 +22,8 @@ PCA <- function(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA) {
     data.wt <- foo$LR.wt
   }
 
-  # do PCA
+  # organize matrix, weights, etc...
+  # Xact is the active data (notice, no supplementary columns yet!)
   X    <- as.matrix(data)
   Xact <- X
   if(!is.na(suprow[1])) { Xact <- X[-suprow,] }
@@ -55,7 +57,7 @@ PCA <- function(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA) {
     if(!is.na(suprow[1]) & (sum(row.wt[suprow]!=0)>0)) stop("Supplementary row weights should be 0")
     rm <- rep(0, nrow(X))
     if(is.na(suprow[1]))  rmact <- row.wt / sum(row.wt)
-    if(!is.na(suprow[1])) rmact[(1:nrow(X))[-suprow]] <- row.wt / sum(row.wt)
+    if(!is.na(suprow[1])) rmact[(1:nrow(X))[-suprow]] <- (row.wt / sum(row.wt))[row.wt!=0]
   }
   Y    <- Xact
   mc   <- t(Y) %*% as.vector(rmact)
@@ -67,7 +69,7 @@ PCA <- function(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA) {
   data.rsc <- (diag(1/sqrt(rmact)) %*% svdZ$u)[,1:ndmax]
   data.csc <- (diag(1/sqrt(cm)) %*% svdZ$v)[,1:ndmax]
 
-  # supplementary rows but no supplementary columns (latter option non-existent)
+  # supplementary rows but no supplementary columns (latter option non-existent, still to come)
   #  if(!is.na(suprow[1]) & is.na(supcol[1])) {
   if(!is.na(suprow[1])) {
 

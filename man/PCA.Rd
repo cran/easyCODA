@@ -14,7 +14,7 @@ PCA(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA)
 A data frame or matrix of interval-scale data, or logratio object from functions \code{ALR}, \code{CLR} or \code{LR}
 }
  \item{nd}{
-Number of dimensions for summary solution if not 2
+Number of dimensions for summary solution if not 2 (default)
 }
   \item{weight}{
 TRUE (default) for column weighting, FALSE for unweighted analysis, or a vector of user-defined column weights
@@ -63,14 +63,14 @@ Greenacre, M. (2010), Biplots in Practice, BBVA Foundation, Bilbao. Free downloa
 Michael Greenacre
 }
 \seealso{
-, \code{PLOT.PCA}, \code{\link[ca]{plot.ca}}, \code{\link[ca]{summary.ca}}, \code{\link[ca]{print.ca}}
+\code{PLOT.PCA}, \code{\link[ca]{plot.ca}}, \code{\link[ca]{summary.ca}}, \code{\link[ca]{print.ca}}
 }
 \examples{
 # compute logratios of Vegetables data set
-data(veg)
+data("veg")
 veg.LR <- LR(veg)
 # unweighted PCA biplot of the results
-veg.PCA <- PCA(veg.LR$LR, weight=FALSE)
-PLOT.PCA(veg.PCA, map="asymmetric")
+veg.pca <- PCA(veg.LR$LR, weight=FALSE)
+PLOT.PCA(veg.pca, map="asymmetric")
 }
 \keyword{multivariate}
